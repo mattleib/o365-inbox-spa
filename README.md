@@ -15,6 +15,7 @@ Install:
 
 See it in action (requires valid Office 365 account):
 - Go to: https://o365.azurewebsites.net
+- Note: Currently "Messages" and "My Files" are working. Upon deployment speed of Office 365 APIs more and more will light up.
 
 ###APIs used
 
