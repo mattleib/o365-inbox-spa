@@ -1,0 +1,85 @@
+<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+﻿<div ng-init="firstPage()">
+    <div id="error_div" ng-show="failed"><img ng-src="/App/images/error.jpg" alt="Error"><text id="error_text"><strong>  Error: {{errorMessage}}</strong></text></div>
+    <div id="loading_div" ng-show="loadingData"><b>Working:  </b><img ng-src="/App/images/progress-bar.gif"></div>
+    <div id="error_code" hidden><input value="{{errorMessage}}"></input></div>
+    <div class="panel">
+      <p>
+        <div class="row">
+          <div class="col-md-3" style="float:left"><a ng-click="refreshPage()" href="javascript:;"><img ng-src="/App/images/refresh.jpg" alt="Refresh"></a></div>
+          <div class="col-md-6">
+            <input ng-model="searchKeywords">
+            <a ng-click="searchMessages()" href="javascript:;"><img ng-src="/App/images/ic_search_24px.png" alt="Search"></a>
+          </div>
+          <div class="col-md-2" style="float:right"><a href="#/SendMessage" style="float:right"><img ng-src="/App/images/add2.jpg" alt="New Email"></a></div>
+        </div>
+      </p>
+      <hr>
+      <div class="row">
+        <div class="col-md-2"><strong>From</strong></div>
+        <div class="col-md-5"><strong>Subject</strong></div>
+        <div class="col-md-3"><strong>Received</strong></div>
+        <div class="col-md-2"></div>
+      </div>
+      <hr>
+      <div data-ng-repeat="item in messageItems" ng-show="!deletedRow" id="{{item.Id}}">
+          <div class="row">
+            <div class="col-md-2">{{item.From.EmailAddress.Name}}</div>
+            <div class="col-md-5">{{item.Subject}}</div>
+            <div class="col-md-3">{{item.DateTimeReceived | date:'medium'}}</div>
+            <div class="col-md-2">
+              <div class="row" style="float:right">
+              <a ng-click="show = !show" href="javascript:;"><img ng-src="/App/images/expand.jpg" alt="View"></a>
+              <a data-ng-click="deletedRow=delete(item.Id)" href="javascript:;"><img ng-src="/App/images/delete.jpg" alt="Delete"></a>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-10">
+              <p ng-show="show"><br/>{{item.BodyPreview}}...
+                <a ng-hide="showMessageBody" data-ng-click="showMessageBody=!showMessageBody" href="javascript:;">(show complete message)
+                <a ng-show="showMessageBody" data-ng-click="showMessageBody=!showMessageBody" href="javascript:;">(hide complete message)
+              </p>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+          <div class="row" ng-show="show && showMessageBody">
+            <hr>
+            <div class="col-md-10"><p ng-bind-html="getMessageBody(showMessageBody, item)"></p></div>
+            <div class="col-md-2"></div>
+          </div>
+      </div>
+      <div>
+        <br/>
+        <p>
+          <hr>
+          <div class="row" ng-show="morePages">
+            <div class="col-md-1" style="float:left"><a ng-click="previousPage()" href="javascript:;"><img ng-src="/App/images/previousPage.jpg" alt="Previous Page"></a></div>
+            <div class="col-md-1" style="float:left"><a ng-click="nextPage()" href="javascript:;"><img ng-src="/App/images/nextPage.jpg" alt="Next Page"></a></div>
+          </div>
+        </p>
+      </div>
+    </div>
+</div>
+<!--
+ MIT License:
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ ""Software""), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->

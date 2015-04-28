@@ -1,0 +1,177 @@
+<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+<div ng-init="getGroups()">
+    <div id="error_div" ng-show="failed"><img ng-src="/App/images/error.jpg" alt="Error"><text id="error_text"><strong>  Error: {{errorMessage}}</strong></text></div>
+    <div id="loading_div" ng-show="loadingData"><b>Working:  </b><img ng-src="/App/images/progress-bar.gif"></div>
+    <div id="error_code" hidden><input value="{{errorMessage}}"></input></div>
+    <div class="panel">
+      <p>
+        <form name="groupForm" novalidate>
+          <h4>Select Group:
+            <text ng-hide="groupForm.$valid">none selected</text>
+            <text ng-show="joinedGroups.length">{{joinedGroups.length}} available.</text>
+          </h4>
+          <fieldset class="form-group">
+            <select class="form-control" title="Groups"
+                  ng-model="selectedGroup"
+                  ng-change="groupChanged()"
+                  ng-options="group.displayName for group in joinedGroups track by group.EmailAddress" required>
+              <option value="">-- Select Group --</option>
+            </select>
+          </fieldset>
+        </form>
+      </p>
+    </div>
+    <div ng-show="selectedGroup">
+
+      <h4>{{selectedGroup.displayName}}</h4>
+
+      <ul class="nav nav-pills">
+        <li ng-class="{ active:isGroupTabSet(1) }">
+          <a href ng-click="setGroupTab(1)">Conversations</a>
+        </li>
+        <li ng-class="{ active:isGroupTabSet(2) }">
+          <a href ng-click="setGroupTab(2)">Group Events</a>
+        </li>
+        <li ng-class="{ active:isGroupTabSet(3) }">
+          <a href ng-click="setGroupTab(3)">Group Files</a>
+        </li>
+      </ul>
+
+      <div ng-show="isGroupTabSet(1)">
+        <form name="conversationForm" novalidate>
+          <br/>
+          <h5>Select conversation:
+            <text ng-show="conversationItems.length"><strong>{{conversationItems.length}} conversations available.</strong></text>
+          </h5>
+          <fieldset class="form-thread">
+            <select class="form-control" title="Threads"
+                  ng-model="conversationItem"
+                  ng-change="getConversationThreadPosts()"
+                  ng-options="item.Topic for item in conversationItems track by item.Id" required>
+              <option value="">-- Select conversation --</option>
+            </select>
+          </fieldset>
+        </form>
+
+        <div ng-show="threadPosts.length">
+          <br/>
+          <div class="row">
+            <div class="col-md-8" style="float:left"><text><strong>{{threadPosts.length}} posts available.</strong></text></div>
+            <div class="col-md-1"><a ng-click="getConversationThreadPosts()" href="javascript:;"><img ng-src="/App/images/refresh.bmp" alt="Refresh"></a></div>
+            <div class="col-md-1"><a ng-click="togglePostReply()" href="javascript:;" style="float:right"><img ng-src="/App/images/add2.jpg" alt="Reply"></a></div>
+          </div>
+          <hr/>
+          <div ng-show="showPostReply">
+            <form name="postForm" ng-submit="postForm.$valid && postItem()" novalidate>
+              <fieldset class="form-group">
+                <textarea rows="5" ng-model="postReplyMessage" class="form-control" placeholder="Start typing your reply..." title="Post" required></textarea>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <input type="submit" class="btn btn-primary pull-right" value="Reply" />
+              </fieldset>
+            </form>
+            <hr/>
+          </div>
+          <div data-ng-repeat="item in threadPosts | orderBy : '-DateTimeLastModified'">
+              <div class="row">
+                <div style="float:left" class="col-md-6"><strong>{{item.From.EmailAddress.Name}}</strong></div>
+                <div style="float:right" class="col-md-4">{{item.DateTimeLastModified | date:'medium' }}</div>
+              </div>
+              <p ng-bind-html="showPostContent(item)"></p>
+              <hr />
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="isGroupTabSet(2)">
+        <table class="table table-striped">
+            <thead>
+              <thead>
+                  <tr>
+                      <th>Event</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Location</th>
+                  </tr>
+              </thead>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="item in eventItems | orderBy : '-Start'" id="{{item.Id}}">
+                    <td>
+                      <p>{{item.Subject}}</p>
+                    </td>
+                    <td>
+                      <p>{{item.Start| date:'medium' }}</p>
+                    </td>
+                    <td>
+                      <p>{{item.End | date:'medium' }}</p>
+                    </td>
+                    <td>
+                      <p>{{item.Location.DisplayName }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div ng-show="isGroupTabSet(3)">
+      <table class="table table-striped">
+          <thead>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Last Modified By</th>
+                    <th>Last Modified</th>
+                    <th>WebLink</th>
+                </tr>
+            </thead>
+          </thead>
+          <tbody>
+              <tr data-ng-repeat="item in groupFiles | orderBy : 'dateTimeLastModfied'">
+                  <td>
+                    <p>{{item.name}}</p>
+                  </td>
+                  <td>
+                    <p>{{item.type}}</p>
+                  </td>
+                  <td>
+                    <p>{{item.lastModifiedBy.user.displayName}}</p>
+                  </td>
+                  <td>
+                    <p>{{item.dateTimeLastModified | date:'medium' }}</p>
+                  </td>
+                  <td>
+                    <a href="{{item.webUrl}}" target="_blank"><img ng-src="/App/images/expand.jpg" alt="View"></a>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+
+    </div>
+</div>
+<!--
+ MIT License:
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ ""Software""), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->

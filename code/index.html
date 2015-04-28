@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Matthias Inbox SPA (Beta)</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="App/css/app.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+</head>
+<body ng-app="inboxApp" ng-controller="homeCtrl" role="document">
+
+    <div class="navbar navbar-fixed-top" role="navigation" style="background-color:darkblue">
+        <div class="container">
+            <div class="navbar-header">
+              <!--
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse">
+
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              -->
+                <a class="navbar-brand" href="#/Home">Matthias Inbox SPA</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{ active: isActive('/Home') }"><a href="#/Home">Home</a></li>
+                    <li ng-class="{ active: isActive('/Messages') }"><a href="#/Messages" ng-show="userInfo.isAuthenticated">Messages</a></li>
+                    <li ng-class="{ active: isActive('/Groups') }"><a href="#/Groups" ng-show="userInfo.isAuthenticated">My Groups</a></li>
+                    <li ng-class="{ active: isActive('/Files') }"><a href="#/Files" ng-show="userInfo.isAuthenticated">My Files</a></li>
+                    <li ng-class="{ active: isActive('/Me') }"><a href="#/Me" ng-show="userInfo.isAuthenticated">About Me</a></li>
+                    <li ng-class="{ active: isActive('/UserData') }"><a href="#/UserData" ng-show="userInfo.isAuthenticated">OpenID Connect Token</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="btn btn-link" ng-show="userInfo.isAuthenticated" ng-click="logout()">Logout</a></li>
+                    <li><a class="btn btn-link" ng-hide="userInfo.isAuthenticated" ng-click="login()">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="container" role="main">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1" style="background-color:azure">
+                <div class="page-header">
+                    <h1>Matthias Inbox SPA (Beta)</h1>
+                </div>
+                <p>Single Page App in AngularJS using CORS, ADAL.JS and Microsoft Graph to call Office 365 APIs.<br/>
+                <a href="https://portal.office.com/myapps" target="_blank">View and revoke this app here.</a>
+              </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <div ng-view class="panel-body">
+
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.2.25/angular-route.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="App/Scripts/adal.min.js"></script>
+        <script src="App/Scripts/adal-angular.min.js"></script>
+        <script src="App/Scripts/app.js"></script>
+        <script src="App/Scripts/webRequestSvc.js"></script>
+        <script src="App/Scripts/homeCtrl.js"></script>
+        <script src="App/Scripts/messagesCtrl.js"></script>
+        <script src="App/Scripts/sendMessageCtrl.js"></script>
+        <script src="App/Scripts/userDataCtrl.js"></script>
+        <script src="App/Scripts/myGroupsCtrl.js"></script>
+        <script src="App/Scripts/myFilesCtrl.js"></script>
+        <script src="App/Scripts/appScripts.js"></script>
+</body>
+</html>
+<!--
+ MIT License:
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ ""Software""), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->

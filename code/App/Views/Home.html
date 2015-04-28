@@ -1,0 +1,89 @@
+<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+<div class="row">
+    <h3>Login and see Office 365 APIs in action through Microsoft Graph.</h3>
+
+    <div class="col-lg-6">
+        <h4>Home</h4>
+        <p>This page with overview what this application is about.
+        </p>
+        <br />
+
+        <h4>Messages</h4>
+        <p>List messages in your inbox, delete a message, send a message.
+        <br/>
+        APIs used:
+        </p>
+        <ul>
+            <li>Messages: https://graph.microsoft.com/beta</li>
+            <li>/me/messages -> list of messages</li>
+            <li>/me/sendmail -> send a message </li>
+            <li>/me/messages/{msg-id} -> delete a message </li>
+            <li>/me/messages/?search -> search a message by keyword</li>
+        </ul>
+        <br />
+
+        <h4>My Groups</h4>
+        <p>List groups you are a member off, see the group conversations and the group calendar.
+        <br/>
+        APIs used:
+        </p>
+        <ul>
+            <li>Groups: https://graph.microsoft.com/beta</li>
+            <li>/me/joinedGroups -> Groups you are a member-of</li>
+            <li>/myorganization/{group-id}/conversations -> get Group conversations</li>
+            <li>/myorganization/{group-id}/calendar/events -> get Groups events</li>
+            <li>/myorganization/{group-id}/calendar/files -> get Groups files</li>
+            <li>/myorganization/{group-id}/conversations/{id}/threads/ -> get and post to conversation</li>
+        </ul>
+        <br />
+    </div>
+
+    <div class="col-lg-6">
+        <h4>My Files</h4>
+        <p>See the list of your files on your OneDrive for Business.
+        <br/>
+        APIs used:
+        </p>
+        <ul>
+            <li>Files: https://graph.microsoft.com/beta/me/files</li>
+        </ul>
+        <br />
+
+        <h4>About Me</h4>
+        <p>This shows your profile and organization information.
+        <br/>
+        APIs used:
+        </p>
+        <ul>
+            <li>Profile: https://graph.microsoft.com/beta/me</li>
+            <li>Manager: https://graph.microsoft.com/beta/me/manager</li>
+            <li>Reports: https://graph.microsoft.com/beta/me/directReports</li>
+        </ul>
+        <br />
+
+        <h4>Open ID Connect Token</h4>
+        <p>This shows the content of the OpenID Connect token issued by AzureAD for this app.</p>
+    </div>
+</div>
+<!--
+ MIT License:
+
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ ""Software""), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
