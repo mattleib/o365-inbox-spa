@@ -2,28 +2,17 @@
 //
 'use strict';
 angular.module('inboxApp')
-.controller('sendMessageCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService',
-function ($scope, $location, webRequestSvc, adalService) {
+.controller('sendMessageCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService', 'dataLoaderSvc',
+function ($scope, $location, webRequestSvc, adalService, dataLoaderSvc) {
 
-  $scope.errorMessage = "";
-  $scope.failed = false;
-  $scope.loadingData = false;
   $scope.sendStatus = null;
   $scope.emailMessage = {};
   $scope.emailMessage.importance = "Normal";
 
-  $scope.initialize = function() {
-    $scope.errorMessage = "";
-    $scope.failed = false;
-    $scope.loadingData = false;
-    $scope.sendStatus = null;
-  };
-
   // Send a Message
   $scope.sendMessage = function (id) {
 
-    $scope.loadingData = true;
-
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.sendMessageItem({
       'Message': {
         'Subject': $scope.emailMessage.subject,
@@ -41,19 +30,15 @@ function ($scope, $location, webRequestSvc, adalService) {
       }
     }).success(function (data) {
 
-        $scope.initialize();
-        $scope.errorMessage = "ok";
         $scope.emailMessage = {};
         $scope.emailMessage.importance = "Normal";
         $scope.sendStatus = "Message successful sent!";
+        dataLoaderSvc.successApiCall();
 
         $location.path("/Messages");
 
     }).error(function (err, status, headers, config) {
-
-        $scope.initialize();
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // Send a Message
 }]);

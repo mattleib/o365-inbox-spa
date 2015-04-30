@@ -43,6 +43,7 @@ function ($routeProvider, $httpProvider, adalProvider) {
 
     var client_id_prod = "867feceb-50b9-4ceb-bdca-d7f2325479eb";
     var client_id_ppe = "bb0c67ac-b766-4158-be11-064ad74634fb";
+    //var client_id = client_id_ppe;
     var client_id = client_id_prod;
 
     adalProvider.init(

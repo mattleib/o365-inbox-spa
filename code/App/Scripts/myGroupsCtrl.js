@@ -2,12 +2,9 @@
 //
 'use strict';
 angular.module('inboxApp')
-.controller('myGroupsCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService', '$sce',
-function ($scope, $location, webRequestSvc, adalService, $sce) {
+.controller('myGroupsCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService', '$sce', 'dataLoaderSvc',
+function ($scope, $location, webRequestSvc, adalService, $sce, dataLoaderSvc) {
 
-  $scope.errorMessage = "";
-  $scope.failed = false;
-  $scope.loadingData = false;
   $scope.eventItems = {};
   $scope.conversationItems = {};
   $scope.conversationItem = {};
@@ -61,107 +58,85 @@ function ($scope, $location, webRequestSvc, adalService, $sce) {
 
   // Get Groups
   $scope.getGroups = function () {
-      $scope.loadingData = true;
-      $scope.failed = false;
 
-      //webRequestSvc.getAvailableGroups(tid).success(function (data, status, headers, config) {
+      dataLoaderSvc.prepareApiCall();
       webRequestSvc.getJoinedGroups().success(function (data) {
 
           $scope.joinedGroups = data.value;
-          $scope.errorMessage = "ok";
-          $scope.loadingData = false;
+          dataLoaderSvc.successApiCall();
 
       }).error(function (err, status, headers, config) {
-
-          $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-          $scope.loadingData = false;
-          $scope.failed = true;
+          dataLoaderSvc.errorApiCall(err, status, headers);
       });
   }; // Get Groups
 
   // Get Files
   $scope.getGroupFiles = function (groupId) {
-    $scope.groupFiles = null;
-    $scope.loadingData = true;
-    $scope.failed = false;
 
+    $scope.groupFiles = null;
+
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.getGroupFiles(groupId).success(function (data) {
 
         $scope.groupFiles = data.value;
-        $scope.errorMessage = "ok";
-        $scope.loadingData = false;
+        dataLoaderSvc.successApiCall();
 
     }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // Get Group Files;
 
   $scope.getGroupCalendar = function (groupId) {
-    $scope.eventItems = null;
-    $scope.loadingData = true;
-    $scope.failed = false;
 
+    $scope.eventItems = null;
+
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.getGroupCalendarItems(groupId).success(function (data) {
 
         $scope.eventItems = data.value;
-        $scope.errorMessage = "ok";
-        $scope.loadingData = false;
+        dataLoaderSvc.successApiCall();
 
     }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // Get Group Calendar;
 
   $scope.getGroupConversations = function (groupId) {
-    $scope.conversationItems = null;
-    $scope.loadingData = true;
-    $scope.failed = false;
 
+    $scope.conversationItems = null;
+
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.getGroupConversationItems(groupId).success(function (data) {
 
         $scope.conversationItems = data.value;
-        $scope.errorMessage = "ok";
-        $scope.loadingData = false;
+        dataLoaderSvc.successApiCall();
 
     }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // Get Group Conversations
 
   $scope.getGroupThreads = function (groupId) {
-    $scope.groupThreadItems = null;
-    $scope.loadingData = true;
-    $scope.failed = false;
 
+    $scope.groupThreadItems = null;
+
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.getGroupThreads(groupId).success(function (data) {
 
         $scope.groupThreadItems = data.value;
-        $scope.errorMessage = "ok";
-        $scope.loadingData = false;
+        dataLoaderSvc.successApiCall();
 
     }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // Get Group Threads
 
   $scope.getConversationThreadPosts = function () {
+
     $scope.threadPosts = null;
     $scope.currentThreadId =  null;
-    $scope.loadingData = true;
-    $scope.failed = false;
 
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.getGroupThreads(
       $scope.selectedGroup.objectId,
       $scope.conversationItem.Id).success(function (data) {
@@ -175,28 +150,24 @@ function ($scope, $location, webRequestSvc, adalService, $sce) {
           ).success(function (data){
               $scope.threadPosts = data.value;
               $scope.currentThreadId = threadId;
-              $scope.errorMessage = "ok";
-              $scope.loadingData = false;
-            });
+              dataLoaderSvc.successApiCall();
+          }).error(function (err, status, headers, config) {
+              dataLoaderSvc.errorApiCall(err, status, headers);
+          });
 
     }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
   }; // getConversationThreadPosts
 
   $scope.postItem = function () {
-
-    $scope.loadingData = true;
-    $scope.failed = false;
 
     var groupId = $scope.selectedGroup.objectId;
     var conversationId = $scope.conversationItem.Id;
     var threadId = $scope.currentThreadId;
     var message = $scope.postReplyMessage;
 
+    dataLoaderSvc.prepareApiCall();
     webRequestSvc.postReplyItem({
         "Post":{
           "Body": {
@@ -206,16 +177,15 @@ function ($scope, $location, webRequestSvc, adalService, $sce) {
         }
     }, groupId, conversationId, threadId).success(function (data) {
 
-        $scope.loadingData = false;
         $scope.postReplyMessage = null;
+        dataLoaderSvc.successApiCall();
+
         $scope.getConversationThreadPosts();
 
     }).error(function (err, status, headers, config) {
 
         $scope.postReplyMessage = null;
-        $scope.loadingData = false;
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
     });
 
     $scope.togglePostReply();

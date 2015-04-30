@@ -2,35 +2,26 @@
 //
 'use strict';
 angular.module('inboxApp')
-.controller('myFilesCtrl', ['$scope', 'adalAuthenticationService', '$location', 'webRequestSvc',
-function ($scope, adalService, $location, webRequestSvc) {
+.controller('myFilesCtrl', ['$scope', 'adalAuthenticationService', '$location', 'webRequestSvc', 'dataLoaderSvc',
+function ($scope, adalService, $location, webRequestSvc, dataLoaderSvc) {
 
-  $scope.errorMessage = "";
-  $scope.failed = false;
-  $scope.loadingData = false;
   $scope.myFiles = null;
 
   // Get getMyFiles
   $scope.getMyFiles = function () {
 
       $scope.myFiles = null;
-      $scope.loadingData = true;
-      $scope.failed = false;
 
+      dataLoaderSvc.prepareApiCall();
       webRequestSvc.getMyFiles().success(function (data) {
 
           $scope.myFiles = data.value;
-          $scope.errorMessage = "ok";
-          $scope.loadingData = false;
+          dataLoaderSvc.successApiCall();
 
       }).error(function (err, status, headers, config) {
-
-          $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-          $scope.loadingData = false;
-          $scope.failed = true;
+          dataLoaderSvc.errorApiCall(err, status, headers);
       });
   }; // Get getMyFiles
-
 }]);
 // MIT License:
 

@@ -1,8 +1,8 @@
 <!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
 ﻿<div ng-init="firstPage()">
-    <div id="error_div" ng-show="failed"><img ng-src="/App/images/error.jpg" alt="Error"><text id="error_text"><strong>  Error: {{errorMessage}}</strong></text></div>
-    <div id="loading_div" ng-show="loadingData"><b>Working:  </b><img ng-src="/App/images/progress-bar.gif"></div>
-    <div id="error_code" hidden><input value="{{errorMessage}}"></input></div>
+  <div id="error_div" ng-show="pageLoadDataHasError"><img ng-src="/App/images/error.jpg" alt="Error"><text id="error_text"><strong>  Error: {{pageLoadDataErrorText}}</strong></text></div>
+  <div id="loading_div" ng-show="pageLoadDataBar"><b>Working:  </b><img ng-src="/App/images/progress-bar.gif"></div>
+  <div id="error_code" hidden><input value="{{pageLoadDataErrorText}}"></input></div>
     <div class="panel">
       <p>
         <div class="row">

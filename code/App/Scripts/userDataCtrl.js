@@ -2,8 +2,8 @@
 //
 ﻿'use strict';
 angular.module('inboxApp')
-.controller('userDataCtrl', ['$scope', 'adalAuthenticationService', '$location', 'webRequestSvc',
-function ($scope, adalService, $location, webRequestSvc) {
+.controller('userDataCtrl', ['$scope', 'adalAuthenticationService', '$location', 'webRequestSvc', 'dataLoaderSvc',
+function ($scope, adalService, $location, webRequestSvc, dataLoaderSvc) {
 
     // Token claims
     $scope.claims = [];
@@ -17,10 +17,6 @@ function ($scope, adalService, $location, webRequestSvc) {
         }
     }
 
-    // About Me!
-    $scope.errorMessage = "";
-    $scope.failed = false;
-    $scope.loadingData = false;
     $scope.myInfo = {};
 
     // get tokens against the token specific endpoint
@@ -29,16 +25,13 @@ function ($scope, adalService, $location, webRequestSvc) {
 
     $scope.getMe = function () {
 
-        $scope.errorMessage = "";
-        $scope.loadingData = true;
-        $scope.failed = false;
         $scope.myInfo = {};
 
+        dataLoaderSvc.prepareApiCall();
         webRequestSvc.getMyProfile().success(function (data) {
 
             $scope.myInfo = data;
-            $scope.errorMessage = "ok";
-            $scope.loadingData = false;
+            dataLoaderSvc.successApiCall();
 
             webRequestSvc.getMyManager().success(function (data) {
 
@@ -51,10 +44,7 @@ function ($scope, adalService, $location, webRequestSvc) {
             });
 
         }).error(function (err, status, headers, config) {
-
-            $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-            $scope.loadingData = false;
-            $scope.failed = true;
+            dataLoaderSvc.errorApiCall(err, status, headers);
         });
     }; // Get Me
 }]);

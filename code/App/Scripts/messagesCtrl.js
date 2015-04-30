@@ -2,12 +2,9 @@
 //
 ﻿'use strict';
 angular.module('inboxApp')
-.controller('messagesCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService', '$sce',
-function ($scope, $location, webRequestSvc, adalService, $sce) {
+.controller('messagesCtrl', ['$scope', '$location', 'webRequestSvc', 'adalAuthenticationService', '$sce', 'dataLoaderSvc',
+function ($scope, $location, webRequestSvc, adalService, $sce, dataLoaderSvc) {
 
-    $scope.errorMessage = "";
-    $scope.failed = false;
-    $scope.loadingData = false;
     $scope.messageItems = {};
     $scope.emailMessage = {};
     $scope.searchKeywords = "";
@@ -47,23 +44,18 @@ function ($scope, $location, webRequestSvc, adalService, $sce) {
     $scope.populate = function (skipMessages) {
 
         $scope.searchKeywords = "";
-        $scope.loadingData = true;
-        $scope.failed = false;
 
+        dataLoaderSvc.prepareApiCall();
         webRequestSvc.getMessageItems(skipMessages, pageSize).success(function (data) {
 
             $scope.messageItems = data.value;
             if(data.value.length >= pageSize) {
               $scope.morePages = true;
             }
-            $scope.errorMessage = "ok";
-            $scope.loadingData = false;
+            dataLoaderSvc.successApiCall();
 
         }).error(function (err, status, headers, config) {
-
-            $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-            $scope.loadingData = false;
-            $scope.failed = true;
+            dataLoaderSvc.errorApiCall(err, status, headers);
         });
     }; // Get Messages
 
@@ -75,40 +67,28 @@ function ($scope, $location, webRequestSvc, adalService, $sce) {
           return;
         }
 
-        $scope.loadingData = true;
-        $scope.failed = false;
-
+        dataLoaderSvc.prepareApiCall();
         webRequestSvc.searchMessageItems($scope.searchKeywords).success(function (data) {
 
             $scope.messageItems = data.value;
-            $scope.errorMessage = "ok";
-            $scope.loadingData = false;
+            dataLoaderSvc.successApiCall();
 
         }).error(function (err, status, headers, config) {
-
-            $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-            $scope.loadingData = false;
-            $scope.failed = true;
+            dataLoaderSvc.errorApiCall(err, status, headers);
         });
     }; // Search Messages
 
     // Delete a Message
     $scope.delete = function (id) {
 
-      $scope.failed = false;
-      $scope.loadingData = true;
-
+      dataLoaderSvc.prepareApiCall();
       webRequestSvc.deleteMessageItem(id).success(function (data) {
 
         angular.element(document.getElementById(id)).hide();
-        $scope.errorMessage = "ok";
-        $scope.loadingData = false;
+        dataLoaderSvc.successApiCall();
 
       }).error(function (err, status, headers, config) {
-
-        $scope.errorMessage = webRequestSvc.getHttpErrorMessage(err, status, headers);
-        $scope.loadingData = false;
-        $scope.failed = true;
+        dataLoaderSvc.errorApiCall(err, status, headers);
       });
     }; // Delete a Message
 
