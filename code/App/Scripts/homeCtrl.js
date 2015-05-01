@@ -2,8 +2,10 @@
 //
 ﻿'use strict';
 angular.module('inboxApp')
-.controller('homeCtrl', ['$scope', 'adalAuthenticationService','$location',
-function ($scope, adalService, $location) {
+.controller('homeCtrl', ['$scope', 'adalAuthenticationService','$location', 'dataLoaderSvc',
+function ($scope, adalService, $location, dataLoaderSvc) {
+
+    dataLoaderSvc.resetApiCall();
 
     $scope.login = function () {
         adalService.login();

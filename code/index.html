@@ -56,9 +56,12 @@
         </div>
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
-                <div ng-view class="panel-body">
+              <div id="error_div" ng-show="pageLoadDataHasError"><img ng-src="/App/images/error.jpg" alt="Error"><text id="error_text"><strong>  Error: {{pageLoadDataErrorText}}</strong></text></div>
+              <div id="loading_div" ng-show="pageLoadDataBar"><b>Working:  </b><img ng-src="/App/images/progress-bar.gif"></div>
+              <div id="error_code" hidden><input value="{{pageLoadDataErrorText}}"></input></div>
+              <div ng-view class="panel-body">
 
-                </div>
+              </div>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

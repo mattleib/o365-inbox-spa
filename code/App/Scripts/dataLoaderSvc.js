@@ -17,5 +17,10 @@ angular.module('inboxApp')
             $rootScope.pageLoadDataHasError = true;
             $rootScope.pageLoadDataErrorText = webRequestSvc.getHttpErrorMessage(err, status, headers);
           },
+          resetApiCall: function () {
+            $rootScope.pageLoadDataBar = false;
+            $rootScope.pageLoadDataHasError = false;
+            $rootScope.pageLoadDataErrorText = null;
+          },
       };
 }]);

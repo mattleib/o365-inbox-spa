@@ -5,6 +5,8 @@ angular.module('inboxApp')
 .controller('userDataCtrl', ['$scope', 'adalAuthenticationService', '$location', 'webRequestSvc', 'dataLoaderSvc',
 function ($scope, adalService, $location, webRequestSvc, dataLoaderSvc) {
 
+    dataLoaderSvc.resetApiCall();
+
     // Token claims
     $scope.claims = [];
 

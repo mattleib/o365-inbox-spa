@@ -43,25 +43,21 @@ angular.module('inboxApp')
         // Message Rest API calls
         getMessageItems : function(skipMessages, pageSize){
 
-            //var api = apiInbox + apiMessageQuery + "&$skip=" + skipMessages + "&$top=" + pageSize;
             var api = apiGraphInbox + apiMessageQuery + "&$skip=" + skipMessages + "&$top=" + pageSize;
             return $http.get(api, config);
         },
         searchMessageItems : function(keywords){
 
-            //var api = apiMessageSearch + '"' + keywords + '"';
             var api = apiGraphMessageSearch + '"' + keywords + '"';
             return $http.get(api, config);
         },
         sendMessageItem : function(item){
 
-            //var api = apiMe + '/sendmail';
             var api = apiGraphMe + '/sendmail';
             return $http.post(api, item, config);
         },
         deleteMessageItem : function(id){
 
-            //var api = apiMe + '/messages/' + id;
             var api = apiGraphMe + '/messages/' + id;
             return $http.delete(api, config);
         },
@@ -78,7 +74,6 @@ angular.module('inboxApp')
         // Group Rest API calls
         getJoinedGroups : function(){
 
-            //var api = apiJoinedGroups;
             var api = apiGraphJoinedGroups;
             return $http.get(api);
         },
@@ -89,13 +84,11 @@ angular.module('inboxApp')
         },
         getGroupCalendarItems : function(groupId){
 
-            //var api = apiGroups + groupId + apiGroupCalendar;
             var api = apiGraphGroups + '/' + groupId + apiGroupCalendar;
             return $http.get(api);
         },
         getGroupConversationItems : function(groupId){
 
-            //var api = apiGroups + groupId + apiGroupConversations;
             var api = apiGraphGroups + '/' + groupId + apiGroupConversations;
             return $http.get(api);
         },
@@ -112,13 +105,11 @@ angular.module('inboxApp')
         },
         postReplyItem : function(item, groupId, conversationId, threadId){
 
-            // var api = apiGroups + groupId + apiGroupConversations + conversationId + apiGroupThreads + threadId + apiGroupReplyPosts;
             var api = apiGraphGroups + '/' + groupId + apiGroupConversations + conversationId + apiGroupThreads + threadId + apiGroupReplyPosts;
             return $http.post(api, item, config);
         },
         // Graph Rest API calls for Profile
         getMyProfile : function(){
-            //var api = apiAADMe;
             var api = apiGraphMe;
             return $http.get(api);
         },
